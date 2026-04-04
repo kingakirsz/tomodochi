@@ -207,3 +207,87 @@
     white-space: nowrap;
     text-align: center;
 }
+
+.edit-task-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-left: 5px
+}
+
+.task-item:hover .edit-task-btn {
+    opacity: 1;
+}
+
+.edit-task-btn:hover {
+    transform: scale(1.2);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(56, 43, 34, 0.6);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-window {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 400px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+    pointer-events: auto;
+}
+
+.modal-content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--color-secondary);
+}
+
+.modal-difficulty-slider {
+    accent-color: var(--color-secondary);
+    cursor: pointer;
+}
+
+.modal-subtasks-list {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.modal-subtasks-list .task-item {
+    cursor: default;
+    margin-bottom: 0;
+}

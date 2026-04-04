@@ -93,6 +93,62 @@
         </div>
     </template>
 
+    <template id="task-details-modal-template">
+        <div class="modal-overlay">
+            <div class="window modal-window">
+                <div class="window-header">
+                    <span class="window-title">Edit Task</span>
+                    <button class="close-btn close-modal-btn">X</button>
+                </div>
+                <div class="window-content modal-content-area">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="task-input modal-title-input" placeholder="Task title"/>
+                    </div>
+
+                    <div class ="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select class="task-input modal-category-select">
+                                <option value="None">None</option>
+                                <option value="Chores">Chores</option>
+                                <option value="Study">Study</option>
+                                <option value="Hobby">Hobby</option>
+                                <option value="Social">Social</option>
+                                <option value="Wellness">Wellness</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulty: <span class="difficulty-value"></span></label>
+                            <input type="range" min="1" max="10" value="1" class="modal-difficulty-slider"/>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" class="task-input modal-date-input"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Time</label>
+                            <input type="time" class="task-input modal-time-input"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Subtasks</label>
+                        <div style="display: flex; gap: 5px;">
+                            <input type="text" class="task-input modal-subtask-input" placeholder="Add subtask..." />
+                            <button class="add-task-btn modal-add-subtask-btn" style="width: auto; padding: 0 10px; font-size: 14px;">Add</button>
+                        </div>
+                        <div class="modal-subtasks-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
+                        </div>
+                    </div>
+
+                    <button class="menu-btn save-modal-btn" style="width: 100%; margin-top: 15px;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </template>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

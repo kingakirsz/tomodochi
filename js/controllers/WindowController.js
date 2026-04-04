@@ -17,7 +17,8 @@ export class WindowController {
 
         listObj.todoWindow = new ToDoWindow(todoEl,
             (taskId, isCompleted) => {this.taskCallbacks.onToggle(taskId, isCompleted);},
-            (newOrderIds) => {this.taskCallbacks.onReorder(listObj.id, newOrderIds);}
+            (newOrderIds) => {this.taskCallbacks.onReorder(listObj.id, newOrderIds);},
+            (taskId) => {this.taskCallbacks.onEdit(taskId);}
         );
 
         const inputField = todoEl.querySelector(".task-input");

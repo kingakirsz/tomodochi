@@ -2,6 +2,7 @@ import { TaskModel }  from "../models/TaskModel.js";
 import {StorageService} from "../services/StorageService.js";
 import {WindowController} from "./WindowController.js";
 import {MenuView} from "../views/MenuView.js";
+import {TaskDetailsModal} from "../views/windows/TaskDetailsModal.js";
 
 export class MainController {
     constructor() {
@@ -22,6 +23,7 @@ export class MainController {
             onAdd: this.addNewTask.bind(this),
             onUpdateQuadrant: this.updateTaskQuadrant.bind(this),
             onUpdateStatus: this.updateTaskStatus.bind(this),
+            onEdit: this.openTaskModal.bind(this)
         });
 
         this.loadData();
@@ -114,7 +116,7 @@ export class MainController {
 
     notifyViews() {
        this.lists.forEach(list => {
-           const listTasks = this.tasks.filter(t => t.listId === list.id).sort((a, b) => {
+           const listTasks = this.tasks.filter(t => t.listId === list.id && t.parentId === null).sort((a, b) => {
               if (a.isCompleted !== b.isCompleted) {
                   return a.isCompleted ? 1 : -1;
               }
@@ -178,6 +180,35 @@ export class MainController {
             task.status = newStatus;
             this.saveData();
             this.notifyViews();
+        }
+    }
+
+    openTaskModal(taskId) {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (task) {
+            const subtasks = this.tasks.filter(t => t.parentId === taskId);
+            new TaskDetailsModal(
+                task,
+                subtasks,
+                (id, updatedData, newSubtasks) => {
+                    task.update(updatedData);
+                    this.tasks = this.tasks.filter(t => t.parentId !== id);
+
+                    newSubtasks.forEach(sub => {
+                        const subtaskModel = new TaskModel({
+                            id: sub.id,
+                            listId: task.listId,
+                            parentId: task.id,
+                            title: sub.title,
+                            isCompleted : sub.isCompleted,
+                            category: task.category
+                        });
+                        this.tasks.push(subtaskModel);
+                    });
+
+                    this.saveData();
+                    this.notifyViews();
+                });
         }
     }
 }

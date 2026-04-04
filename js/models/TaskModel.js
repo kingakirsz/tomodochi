@@ -2,6 +2,7 @@ export class TaskModel {
     constructor({
         id,
         listId,
+        parentId = null,
         title,
         description,
         isImportant = false,
@@ -13,10 +14,10 @@ export class TaskModel {
         order = 0,
         category = "None",
         difficulty = 1,
-        subtasks = []
     }) {
         this.id = id || crypto.randomUUID();
         this.listId = listId;
+        this.parentId = parentId;
         this.title = title;
         this.description = description;
         this.isImportant = isImportant;
@@ -26,7 +27,6 @@ export class TaskModel {
         this.order = order;
         this.category = category;
         this.difficulty = difficulty;
-        this.subtasks = subtasks;
 
         if (isCompleted !== undefined) {
             this.status = isCompleted ? "done" : "todo";

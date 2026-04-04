@@ -1,11 +1,12 @@
 import { BaseWindow } from "./BaseWindow.js";
 
 export class ToDoWindow extends BaseWindow {
-    constructor(windowElement, onToggleTask, onReorderTasks) {
+    constructor(windowElement, onToggleTask, onReorderTasks, onEditTask) {
         super(windowElement);
         this.contentArea = this.element.querySelector('.window-content');
         this.onToggleTask = onToggleTask;
         this.onReorderTasks = onReorderTasks;
+        this.onEditTask = onEditTask;
 
         this.contentArea.addEventListener("dragover", (e) => {
             e.preventDefault();
@@ -82,8 +83,18 @@ export class ToDoWindow extends BaseWindow {
             const titleSpan = document.createElement("span");
             titleSpan.textContent = task.title;
 
+            const editBtn = document.createElement("button");
+            editBtn.className = "edit-task-btn";
+            editBtn.textContent = "✏️";
+            editBtn.addEventListener("click", () => {
+                if (this.onEditTask) {
+                    this.onEditTask(task.id);
+                }
+            });
+
             taskDiv.appendChild(checkbox);
             taskDiv.appendChild(titleSpan);
+            taskDiv.appendChild(editBtn);
             this.contentArea.appendChild(taskDiv);
         });
     }
