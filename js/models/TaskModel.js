@@ -9,8 +9,11 @@ export class TaskModel {
         dueDate = null,
         dueTime = null,
         status = "todo",
-        isCompleted,
-        order = 0
+        isCompleted = false,
+        order = 0,
+        category = "None",
+        difficulty = 1,
+        subtasks = []
     }) {
         this.id = id || crypto.randomUUID();
         this.listId = listId;
@@ -21,6 +24,9 @@ export class TaskModel {
         this.dueDate = dueDate;
         this.dueTime = dueTime;
         this.order = order;
+        this.category = category;
+        this.difficulty = difficulty;
+        this.subtasks = subtasks;
 
         if (isCompleted !== undefined) {
             this.status = isCompleted ? "done" : "todo";
