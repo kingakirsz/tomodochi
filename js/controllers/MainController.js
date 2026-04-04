@@ -3,11 +3,13 @@ import {StorageService} from "../services/StorageService.js";
 import {WindowController} from "./WindowController.js";
 import {MenuView} from "../views/MenuView.js";
 import {TaskDetailsModal} from "../views/windows/TaskDetailsModal.js";
+import { PetModel } from "../models/PetModel.js";
 
 export class MainController {
     constructor() {
         this.lists = [];
         this.tasks = [];
+        this.pet = new PetModel(StorageService.loadPet());
 
         this.desktop = document.getElementById("desktop");
         this.menuContainer = document.getElementById("lists-menu-container");
@@ -132,6 +134,10 @@ export class MainController {
         const task = this.tasks.find(t => t.id === taskId);
         if (task) {
             task.isCompleted = isCompleted;
+            if (isCompleted) {
+                this.pet.processTask(task);
+                this.savePetData();
+            }
             this.saveData();
             this.notifyViews();
         }
@@ -210,5 +216,9 @@ export class MainController {
                     this.notifyViews();
                 });
         }
+    }
+    savePetData() {
+        StorageService.savePet(this.pet);
+        console.log("Pet data saved:", this.pet);
     }
 }
