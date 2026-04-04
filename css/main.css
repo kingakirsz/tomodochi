@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+:root {
+    --color-bg-main: #f0f0f0;
+    --color-primary: #ffb3ba;
+    --color-primary-dark: #ff8c94;
+    --color-primary-light: #fff0f0;
+    --color-secondary: #b18597;
+    --color-secondary-light: #ffe9e9;
+
+    --color-text-main: #382b22;
+    --color-window-bg: #ffffff;
+    --color-window-content: #fafafa;
+
+    --color-q1: #ffdadc;
+    --color-q2: #e2f0cb;
+    --color-q3: #fff3cd;
+    --color-q4: #e2e3e5;
+
+    --text-primary: #007bff;
+    --font-main: 'Silkscreen', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--color-bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    user-select: none;
+}
+
+#app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}

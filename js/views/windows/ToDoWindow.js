@@ -1,0 +1,90 @@
+import { BaseWindow } from "./BaseWindow.js";
+
+export class ToDoWindow extends BaseWindow {
+    constructor(windowElement, onToggleTask, onReorderTasks) {
+        super(windowElement);
+        this.contentArea = this.element.querySelector('.window-content');
+        this.onToggleTask = onToggleTask;
+        this.onReorderTasks = onReorderTasks;
+
+        this.contentArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            const draggingElement = this.contentArea.querySelector('.dragging');
+            if (!draggingElement) return;
+
+            const afterElement = this.getDragAfterElement(this.contentArea, e.clientY);
+            if (afterElement === null) {
+                this.contentArea.appendChild(draggingElement);
+            } else {
+                this.contentArea.insertBefore(draggingElement, afterElement);
+            }
+        });
+    }
+
+    getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.task-item:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return {offset: offset, element: child};
+            } else {
+                return closest;
+            }
+        }, {offset: Number.NEGATIVE_INFINITY}).element;
+    }
+
+    render(tasks) {
+        this.contentArea.innerHTML = "";
+
+        if (tasks.length === 0) {
+            this.contentArea.innerHTML = "<p style='text-align: center; color: var(--color-secondary); margin-top: 20px;'>Nothing To Do...</p>";
+            return;
+        }
+
+        tasks.forEach(task => {
+            const taskDiv = document.createElement("div");
+            taskDiv.className = "task-item";
+
+            if (task.isCompleted) {
+                taskDiv.classList.add("completed");
+            }
+
+            taskDiv.dataset.id = task.id;
+            taskDiv.draggable = true;
+
+            taskDiv.addEventListener("dragstart", () => {
+                taskDiv.classList.add("dragging");
+            });
+
+            taskDiv.addEventListener("dragend", () => {
+                taskDiv.classList.remove("dragging");
+
+                const currentElements = Array.from(this.contentArea.querySelectorAll('.task-item'));
+                const newOrderIds = currentElements.map(el => el.dataset.id);
+
+                if (this.onReorderTasks) {
+                    this.onReorderTasks(newOrderIds);
+                }
+            });
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = task.isCompleted;
+
+            checkbox.addEventListener("change", () => {
+                if (this.onToggleTask) {
+                    this.onToggleTask(task.id, checkbox.checked);
+                }
+            })
+
+            const titleSpan = document.createElement("span");
+            titleSpan.textContent = task.title;
+
+            taskDiv.appendChild(checkbox);
+            taskDiv.appendChild(titleSpan);
+            this.contentArea.appendChild(taskDiv);
+        });
+    }
+}

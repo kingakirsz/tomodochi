@@ -1,0 +1,209 @@
+.window {
+    position: absolute;
+    background: var(--color-window-bg);
+    border: 3px solid var(--color-secondary);
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 rgba(177, 133, 151, 0.4);
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    width: 300px;
+    min-width: 200px;
+    min-height: 150px;
+    overflow: hidden;
+}
+
+.window-header {
+    background: var(--color-primary-light);
+    border-bottom: 3px solid var(--color-secondary);
+    padding: 8px 12px;
+    cursor: grab;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+    user-select: none;
+}
+
+.window-header:active {
+    cursor: grabbing;
+}
+
+.window-content {
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+    background: var(--color-window-content);
+    border-radius: 0 0 5px 5px;
+}
+
+.close-btn {
+    cursor: pointer;
+    background: var(--color-primary);
+    border: 2px solid var(--color-secondary);
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: var(--color-primary-dark);
+}
+
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    cursor: nwse-resize;
+    background: linear-gradient(135deg, transparent 50%, var(--color-secondary) 50%);
+    border-bottom-right-radius: 4px;
+}
+
+.matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    height: 100%;
+}
+
+.matrix-quadrant {
+    border: 2px solid var(--color-secondary);
+    border-radius: 6px;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.matrix-quadrant h4 {
+    margin-bottom: 8px;
+    font-size: 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-secondary);
+    padding-bottom: 4px;
+}
+
+.q1-container { background-color: var(--color-q1); }
+.q2-container { background-color: var(--color-q2); }
+.q3-container { background-color: var(--color-q3); }
+.q4-container { background-color: var(--color-q4); }
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 8px;
+    background: var(--color-window-bg);
+    border: 1px solid var(--color-secondary);
+    border-radius: 6px;
+    box-shadow: 2px 2px 0 rgba(177, 133, 151, 0.2);
+    cursor: grab;
+    user-select: none;
+    font-size: 14px;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.task-item:active {
+    cursor: grabbing;
+}
+
+.task-item.dragging {
+    opacity: 0.4;
+    box-shadow: none;
+}
+
+.task-item.completed {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.task-item input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-secondary);
+}
+
+.task-item span {
+    flex-grow: 1;
+}
+
+.window-add-task {
+    display: flex;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: var(--color-primary-light);
+    border-bottom: 2px solid var(--color-secondary);
+}
+
+.task-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    font-family: var(--font-main);
+    font-size: 14px;
+    color: var(--color-text-main);
+    background: var(--color-window-bg);
+    border: 2px solid var(--color-secondary);
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 0;
+}
+
+.task-input:focus {
+    border-color: var(--color-text-main);
+    box-shadow: inset 0 0 5px rgba(177, 133, 151, 0.2);
+}
+
+.add-task-btn {
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--color-text-main);
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-secondary);
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.add-task-btn:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.add-task-btn:active {
+    transform: translateY(2px);
+}
+
+.kanban-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.kanban-dropzone {
+    flex-grow: 1;
+    min-height: 50px;
+    padding-bottom: 20px;
+}
+
+.kanban-header {
+    white-space: nowrap;
+    text-align: center;
+}

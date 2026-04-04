@@ -1,0 +1,183 @@
+import { TaskModel }  from "../models/TaskModel.js";
+import {StorageService} from "../services/StorageService.js";
+import {WindowController} from "./WindowController.js";
+import {MenuView} from "../views/MenuView.js";
+
+export class MainController {
+    constructor() {
+        this.lists = [];
+        this.tasks = [];
+
+        this.desktop = document.getElementById("desktop");
+        this.menuContainer = document.getElementById("lists-menu-container");
+
+        this.menuView = new MenuView(this.menuContainer, {
+            onRename: this.renameList.bind(this),
+            onDelete: this.deleteList.bind(this)
+        });
+
+        this.windowController = new WindowController(this.desktop, {
+            onToggle: this.toggleTaskCompletion.bind(this),
+            onReorder: this.reorderTasks.bind(this),
+            onAdd: this.addNewTask.bind(this),
+            onUpdateQuadrant: this.updateTaskQuadrant.bind(this),
+            onUpdateStatus: this.updateTaskStatus.bind(this),
+        });
+
+        this.loadData();
+    }
+
+    createNewList(name) {
+        const listId = crypto.randomUUID();
+        const newList = {id: listId, name: name, todoWindow: null, matrixWindow: null};
+
+        this.windowController.buildWindowsForList(newList);
+        this.menuView.buildMenuButton(newList);
+
+        this.lists.push(newList);
+        this.saveData();
+        return newList;
+    }
+
+    renameList(id, newName) {
+        const list = this.lists.find(l => l.id === id);
+        if (list) {
+            list.name = newName;
+
+            const windowsToUpdate = [
+                {instance: list.todoWindow, prefix: "To-Do"},
+                {instance: list.matrixWindow, prefix: "Matrix"},
+                {instance: list.kanbanWindow, prefix: "Kanban"},
+            ];
+
+            windowsToUpdate.forEach(w => {
+                if (w.instance) {
+                    w.instance.element.querySelector(".window-title").textContent = `${w.prefix} - ${newName}`;
+                }
+            })
+
+            const menuItem = this.menuContainer.querySelector(`[data-list-id="${id}"] span`);
+            if (menuItem) {
+                menuItem.textContent = newName;
+            }
+
+            this.saveData();
+        }
+    }
+
+    deleteList(id) {
+        const listIndex = this.lists.findIndex(l => l.id === id);
+        if (listIndex > -1) {
+            const list = this.lists[listIndex];
+
+            if (list.todoWindow) list.todoWindow.element.remove();
+            if (list.matrixWindow) list.matrixWindow.element.remove();
+            if (list.kanbanWindow) list.kanbanWindow.element.remove();
+
+            const menuItem = this.menuContainer.querySelector(`[data-list-id="${id}"]`);
+            if (menuItem) menuItem.remove();
+
+            this.lists.splice(listIndex, 1);
+            this.tasks = this.tasks.filter(t => t.listId !== id);
+
+            this.saveData();
+            this.notifyViews();
+        }
+    }
+
+    addNewTask(listId, taskData) {
+        const newTask = new TaskModel({...taskData, listId: listId, order: this.tasks.length});
+        this.tasks.push(newTask);
+        this.saveData();
+        this.notifyViews();
+    }
+
+    saveData() {
+        StorageService.saveLists(this.lists);
+        StorageService.saveTasks(this.tasks);
+    }
+
+    loadData() {
+        const savedLists = StorageService.loadLists();
+        const savedTasks = StorageService.loadTasks();
+
+        savedLists.forEach(listData => {
+            const newList = {id: listData.id, name: listData.name, todoWindow: null, matrixWindow: null};
+            this.windowController.buildWindowsForList(newList);
+            this.menuView.buildMenuButton(newList);
+            this.lists.push(newList);
+        });
+
+        this.tasks = savedTasks.map(taskData => new TaskModel(taskData));
+        this.notifyViews();
+    }
+
+    notifyViews() {
+       this.lists.forEach(list => {
+           const listTasks = this.tasks.filter(t => t.listId === list.id).sort((a, b) => {
+              if (a.isCompleted !== b.isCompleted) {
+                  return a.isCompleted ? 1 : -1;
+              }
+              return a.order - b.order;
+          });
+          if (list.todoWindow) list.todoWindow.render(listTasks);
+          if (list.matrixWindow) list.matrixWindow.render(listTasks);
+          if (list.kanbanWindow) list.kanbanWindow.render(listTasks);
+       });
+    }
+
+    toggleTaskCompletion(taskId, isCompleted) {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (task) {
+            task.isCompleted = isCompleted;
+            this.saveData();
+            this.notifyViews();
+        }
+    }
+
+    reorderTasks(listId, newOrderIds) {
+        newOrderIds.forEach((id, index) => {
+            const task = this.tasks.find(t => t.id === id);
+            if (task) {
+                task.order = index;
+            }
+        });
+        this.saveData();
+        this.notifyViews();
+    }
+
+    updateTaskQuadrant(taskId, newQuadrant) {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (task) {
+            switch (newQuadrant) {
+                case "Q1":
+                    task.isImportant = true;
+                    task.isUrgent = true;
+                    break;
+                case "Q2":
+                    task.isImportant = true;
+                    task.isUrgent = false;
+                    break;
+                case "Q3":
+                    task.isImportant = false;
+                    task.isUrgent = true;
+                    break;
+                case "Q4":
+                    task.isImportant = false;
+                    task.isUrgent = false;
+                    break;
+            }
+            this.saveData();
+            this.notifyViews();
+        }
+    }
+
+    updateTaskStatus(taskId, newStatus) {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (task) {
+            task.status = newStatus;
+            this.saveData();
+            this.notifyViews();
+        }
+    }
+}

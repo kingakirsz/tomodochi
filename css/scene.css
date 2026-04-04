@@ -1,0 +1,62 @@
+#scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+#environment-bg{
+    width: 100%;
+    height: 65%;
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.default-bg {
+    background: #a2d2ff;
+}
+
+#environment-ground {
+    width: 100%;
+    height: 35%;
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    position: relative;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.default-ground {
+    background: #95d5b2;
+    border-top: 4px solid #74c69d;
+}
+
+#pet {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background-color: var(--color-primary);
+    border: 3px solid var(--color-secondary);
+    border-radius: 8px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+}

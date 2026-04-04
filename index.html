@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TomoDochi</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/scene.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/windows.css">
+</head>
+<body>
+    <nav id="app-menu">
+        <button class="menu-btn">File</button>
+
+        <div class="dropdown">
+            <button class="menu-btn">View</button>
+            <div class="dropdown-content" id="view-dropdown">
+                <button class="dropdown-item" id="btn-new-list">➕ Add new list</button>
+                    <hr class = "menu-separator">
+                    <div id="lists-menu-container"></div>
+            </div>
+        </div>
+
+        <button class="menu-btn">Shop</button>
+        <button class="menu-btn">Stats</button>
+        <button class="menu-btn">Help</button>
+    </nav>
+    <main id="app-container">
+        <div id="scene">
+            <div id="environment-bg" class="default-bg">
+                <div id="pet" class="idle-animation"></div>
+            </div>
+            <div id="environment-ground" class="default-ground"></div>
+        </div>
+
+        <div id="desktop"></div>
+    </main>
+
+    <template id="todo-window-template">
+        <div class="window" style="top: 50px; left: 100px;">
+            <div class="window-header">
+                <span class="window-title"></span>
+                <button class="close-btn">X</button>
+            </div>
+            <div class="window-add-task">
+                <input type="text" class="task-input" placeholder="Add Task"/>
+                <button class="add-task-btn">+</button>
+            </div>
+            <div class="window-content"></div>
+            <div class="resize-handle"></div>
+        </div>
+    </template>
+
+    <template id="matrix-window-template">
+        <div class="window" style="top: 50px; left: 450px; width: 400px; height: 400px;">
+            <div class="window-header">
+                <span class="window-title"></span>
+                <button class="close-btn">X</button>
+            </div>
+            <div class="window-content matrix-grid">
+                <div class="matrix-quadrant q1-container"><h4>Urgent & Important</h4></div>
+                <div class="matrix-quadrant q2-container"><h4>Not Urgent & Important</h4></div>
+                <div class="matrix-quadrant q3-container"><h4>Urgent & Unimportant</h4></div>
+                <div class="matrix-quadrant q4-container"><h4>Not Urgent & Unimportant</h4></div>
+            </div>
+            <div class="resize-handle"></div>
+        </div>
+    </template>
+
+    <template id="kanban-window-template">
+        <div class="window" style="top: 50px; left: 880px; width: 450px; height: 350px;">
+            <div class="window-header">
+                <span class="window-title"></span>
+                <button class="close-btn">X</button>
+            </div>
+            <div class="window-content kanban-content" style="display: flex; gap: 10px; padding: 10px; height: 100%;">
+                <div class="kanban-column">
+                    <h4 class="kanban-header">To Do</h4>
+                    <div class="kanban-todo kanban-dropzone"></div>
+                </div>
+                <div class="kanban-column">
+                    <h4 class="kanban-header">In Progress</h4>
+                    <div class="kanban-in-progress kanban-dropzone"></div>
+                </div>
+                <div class="kanban-column">
+                    <h4 class="kanban-header">Done</h4>
+                    <div class="kanban-done kanban-dropzone"></div>
+                </div>
+            </div>
+            <div class="resize-handle"></div>
+        </div>
+    </template>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
