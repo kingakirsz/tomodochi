@@ -12,7 +12,14 @@
 </head>
 <body>
     <nav id="app-menu">
-        <button class="menu-btn">File</button>
+        <div class="dropdown">
+            <button class="menu-btn">File</button>
+            <div class="dropdown-content" id="file-dropdown">
+                <button class="dropdown-item" id="btn-export-save">💾 Save Game</button>
+                <button class="dropdown-item" id="btn-import-save">📂 Load Game</button>
+                <input type="file" id="import-file-input" accept=".json" style="display:none;">
+            </div>
+        </div>
 
         <div class="dropdown">
             <button class="menu-btn">View</button>

@@ -10,7 +10,7 @@ export class TaskModel {
         dueDate = null,
         dueTime = null,
         status = "todo",
-        isCompleted = false,
+        isCompleted,
         order = 0,
         category = "None",
         difficulty = 1,

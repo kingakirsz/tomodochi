@@ -1,9 +1,37 @@
 import {MainController} from "./controllers/MainController.js";
+import {StorageService} from "./services/StorageService.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Aplikacja TomoDochi startuje!");
 
     const mainController = new MainController();
+
+    const btnExport = document.getElementById("btn-export-save");
+    const btnImport = document.getElementById("btn-import-save");
+    const fileInput = document.getElementById("import-file-input");
+
+    if (btnExport) {
+        btnExport.addEventListener("click", (e) => {
+            StorageService.exportToFile();
+        });
+    }
+
+    if (btnImport && fileInput) {
+        btnImport.addEventListener("click", (e) => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                StorageService.importFromFile(file, () => {
+                    alert("Import file changed successfully.TomoDachi app will restart.");
+                    location.reload();
+                });
+            }
+            e.target.value = "";
+        });
+    }
 
     const newBtn = document.getElementById("btn-new-list");
     newBtn.addEventListener("click", () => {
@@ -43,6 +71,5 @@ document.addEventListener("DOMContentLoaded", () => {
         isImportant: false,
         isUrgent: false
     });
-
     }
 });
