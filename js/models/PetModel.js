@@ -1,5 +1,7 @@
 export class PetModel {
     constructor(savedData = {}) {
+        this.lastLogin = savedData.lastLogin;
+
         this.energy = savedData.energy !== undefined ? savedData.energy : 100;
         this.points = savedData.points !== undefined ? savedData.points : 0;
 
@@ -31,23 +33,41 @@ export class PetModel {
             "Hobby": {base: "bounciness", texture: "squishiness"},
             "Chores": {base: "powderiness", texture: "chewiness"},
         };
+
+        this.checkDailyReset();
     }
 
     processTask(task) {
-        if (!task.isCompleted || task.category === "None") return;
+        if (!task.isCompleted) return;
 
         const stats = this.categoryMap[task.category];
-        if (!stats) return;
 
-        const energyCost = task.category === "Wellness" ? 0 : task.difficulty;
-        this.energy = Math.max(0, Math.min(100, this.energy - energyCost));
+        if (task.category !== "Wellness") {
+            this.energy = Math.max(0, Math.min(100, this.energy - task.difficulty));
+        }
 
         const baseReward = task.category === "Chores" ? 20 : 10;
         this.points += baseReward * task.difficulty;
 
-        this.shapeStats[stats.base] += task.difficulty;
-        this.textureStats[stats.texture] += task.difficulty;
+        if (stats) {
+            this.shapeStats[stats.base] += task.difficulty;
+            this.textureStats[stats.texture] += task.difficulty;
+        }
 
         console.log(`Pet updated! Energy: ${this.energy}, Points: ${this.points}`);
+    }
+
+    checkDailyReset() {
+        const today = new Date().toDateString();
+        if (this.lastLogin !== today) {
+            this.energy = 100;
+            this.lastLogin = today;
+            console.log("New day! Energy restored to 100.");
+        }
+    }
+
+    addEnergy(amount) {
+        this.energy = Math.min(100, this.energy + amount);
+        console.log(`Energy increased by ${amount}. Current energy: ${this.energy}`);
     }
 }

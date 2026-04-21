@@ -36,6 +36,18 @@
     </nav>
     <main id="app-container">
         <div id="scene">
+            <div id="hud-container">
+                <div class="hud-item energy-container">
+                    <span class="hud-label">Energy</span>
+                    <div class = "energy-bar-bg">
+                        <div class="energy-bar-fill" id="hud-energy-fill"></div>
+                    </div>
+                </div>
+                <div class="hud-item points-container">
+                    <span class="hud-icon">⭐️</span>
+                    <span id="hud-points-text">0</span>
+                </div>
+            </div>
             <div id="environment-bg" class="default-bg">
                 <div id="pet" class="idle-animation"></div>
             </div>

@@ -1,18 +1,22 @@
-import { TaskModel }  from "../models/TaskModel.js";
+import {TaskModel}  from "../models/TaskModel.js";
 import {StorageService} from "../services/StorageService.js";
 import {WindowController} from "./WindowController.js";
 import {MenuView} from "../views/MenuView.js";
 import {TaskDetailsModal} from "../views/windows/TaskDetailsModal.js";
-import { PetModel } from "../models/PetModel.js";
+import {PetModel} from "../models/PetModel.js";
+import {HUDView} from "../views/HUDView.js";
 
 export class MainController {
     constructor() {
         this.lists = [];
         this.tasks = [];
         this.pet = new PetModel(StorageService.loadPet());
+        this.savePetData();
 
         this.desktop = document.getElementById("desktop");
         this.menuContainer = document.getElementById("lists-menu-container");
+
+        this.hudView = new HUDView();
 
         this.menuView = new MenuView(this.menuContainer, {
             onRename: this.renameList.bind(this),
@@ -33,7 +37,7 @@ export class MainController {
 
     createNewList(name) {
         const listId = crypto.randomUUID();
-        const newList = {id: listId, name: name, todoWindow: null, matrixWindow: null};
+        const newList = {id: listId, name: name, todoWindow: null, matrixWindow: null, kanbanWindow: null};
 
         this.windowController.buildWindowsForList(newList);
         this.menuView.buildMenuButton(newList);
@@ -56,7 +60,7 @@ export class MainController {
 
             windowsToUpdate.forEach(w => {
                 if (w.instance) {
-                    w.instance.element.querySelector(".window-title").textContent = `${w.prefix} - ${newName}`;
+                    w.instance.setTitle(`${w.prefix} - ${newName}`);
                 }
             })
 
@@ -106,7 +110,7 @@ export class MainController {
         const savedTasks = StorageService.loadTasks();
 
         savedLists.forEach(listData => {
-            const newList = {id: listData.id, name: listData.name, todoWindow: null, matrixWindow: null};
+            const newList = {id: listData.id, name: listData.name, todoWindow: null, matrixWindow: null, kanbanWindow: null};
             this.windowController.buildWindowsForList(newList);
             this.menuView.buildMenuButton(newList);
             this.lists.push(newList);
@@ -128,6 +132,9 @@ export class MainController {
           if (list.matrixWindow) list.matrixWindow.render(listTasks);
           if (list.kanbanWindow) list.kanbanWindow.render(listTasks);
        });
+       if (this.hudView && this.pet) {
+           this.hudView.update(this.pet.energy, this.pet.points);
+       }
     }
 
     toggleTaskCompletion(taskId, isCompleted) {

@@ -116,4 +116,11 @@ export class BaseWindow {
         zIndexCounter++;
         this.element.style.zIndex = zIndexCounter;
     }
+
+    setTitle(newTitle) {
+        const titleEl = this.element.querySelector('.window-title');
+        if (titleEl) {
+            titleEl.textContent = newTitle;
+        }
+    }
 }
