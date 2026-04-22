@@ -5,6 +5,7 @@ import {MenuView} from "../views/MenuView.js";
 import {TaskDetailsModal} from "../views/windows/TaskDetailsModal.js";
 import {PetModel} from "../models/PetModel.js";
 import {HUDView} from "../views/HUDView.js";
+import {StatsWindow} from "../views/windows/StatsWindow.js";
 
 export class MainController {
     constructor() {
@@ -31,6 +32,19 @@ export class MainController {
             onUpdateStatus: this.updateTaskStatus.bind(this),
             onEdit: this.openTaskModal.bind(this)
         });
+
+        const statsTemplate = document.getElementById("stats-window-template");
+        const statsEl = statsTemplate.content.cloneNode(true).firstElementChild;
+        this.desktop.appendChild(statsEl);
+        this.statsWindow = new StatsWindow(statsEl);
+
+        const btnStats = document.getElementById("btn-stats");
+        if (btnStats) {
+            btnStats.addEventListener("click", () => {
+                this.statsWindow.toggleVisibility();
+                this.statsWindow.render(this.pet);
+            });
+        }
 
         this.loadData();
     }
@@ -134,6 +148,9 @@ export class MainController {
        });
        if (this.hudView && this.pet) {
            this.hudView.update(this.pet.energy, this.pet.points);
+       }
+       if (this.statsWindow && this.statsWindow.element.style.display !== "none") {
+           this.statsWindow.render(this.pet);
        }
     }
 
