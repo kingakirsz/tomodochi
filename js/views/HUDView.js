@@ -2,9 +2,10 @@ export class HUDView {
     constructor() {
         this.energyFill = document.getElementById("hud-energy-fill");
         this.pointsText = document.getElementById("hud-points-text");
+        this.cravingText = document.getElementById("hud-craving-text");
     }
 
-    update(energy, points) {
+    update(energy, points, craving) {
         if (this.pointsText) {
             this.pointsText.textContent = points;
         }
@@ -20,6 +21,10 @@ export class HUDView {
             } else {
                 this.energyFill.style.backgroundColor = "#ef476f";
             }
+        }
+
+        if(this.cravingText) {
+            this.cravingText.textContent = craving || "None";
         }
     }
 }

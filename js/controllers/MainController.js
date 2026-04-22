@@ -147,7 +147,7 @@ export class MainController {
           if (list.kanbanWindow) list.kanbanWindow.render(listTasks);
        });
        if (this.hudView && this.pet) {
-           this.hudView.update(this.pet.energy, this.pet.points);
+           this.hudView.update(this.pet.energy, this.pet.points, this.pet.dailyCraving);
        }
        if (this.statsWindow && this.statsWindow.element.style.display !== "none") {
            this.statsWindow.render(this.pet);

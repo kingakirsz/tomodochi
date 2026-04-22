@@ -1,6 +1,7 @@
 export class PetModel {
     constructor(savedData = {}) {
         this.lastLogin = savedData.lastLogin;
+        this.dailyCraving = savedData.dailyCraving !== undefined ? savedData.dailyCraving : "None";
 
         this.energy = savedData.energy !== undefined ? savedData.energy : 100;
         this.points = savedData.points !== undefined ? savedData.points : 0;
@@ -47,7 +48,12 @@ export class PetModel {
         }
 
         const baseReward = task.category === "Chores" ? 20 : 10;
-        this.points += baseReward * task.difficulty;
+        const multiplier = task.category === this.dailyCraving ? 2 : 1;
+        this.points += (baseReward * task.difficulty) * multiplier;
+
+        if (multiplier > 1) {
+            console.log("Craving satisfied! 2x Points awarded.");
+        }
 
         if (stats) {
             this.shapeStats[stats.base] += task.difficulty;
@@ -62,6 +68,11 @@ export class PetModel {
         if (this.lastLogin !== today) {
             this.energy = 100;
             this.lastLogin = today;
+
+            const categories = ["Chores", "Study", "Hobby", "Social", "Wellness"];
+            const randomIndex = Math.floor(Math.random() * categories.length);
+            this.dailyCraving = categories[randomIndex];
+
             console.log("New day! Energy restored to 100.");
         }
     }
