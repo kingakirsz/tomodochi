@@ -33,8 +33,8 @@ export class TaskDetailsModal {
 
     populateData() {
         this.titleInput.value = this.taskData.title ? this.taskData.title : "";
-        this.categorySelect = this.taskData.category ? this.taskData.category : "None";
-        this.difficultySlider.value = this.taskData.difficultyValue ? this.taskData.difficulty : 1;
+        this.categorySelect.value = this.taskData.category ?? "None";
+        this.difficultySlider.value = this.taskData.difficulty ?? 1;
         this.difficultyValue.textContent = this.difficultySlider.value;
         this.dateInput.value = this.taskData.dueDate ? this.taskData.dueDate : "";
         this.timeInput.value = this.taskData.dueTime ? this.taskData.dueTime : "";

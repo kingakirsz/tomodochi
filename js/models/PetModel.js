@@ -3,15 +3,16 @@ export class PetModel {
         this.lastLogin = savedData.lastLogin;
         this.dailyCraving = savedData.dailyCraving !== undefined ? savedData.dailyCraving : "None";
 
-        this.energy = savedData.energy !== undefined ? savedData.energy : 100;
-        this.points = savedData.points !== undefined ? savedData.points : 0;
+        this.energy = savedData.energy ?? 100;
+        this.points = savedData.points ?? 0;
 
-        this.happiness = savedData.happiness !== undefined ? savedData.happiness : 0;
-        this.wellness = savedData.wellness !== undefined ? savedData.wellness : 0;
-        this.friendship = savedData.friendship !== undefined ? savedData.friendship : 0;
-        this.expertise = savedData.expertise !== undefined ? savedData.expertise : 0;
+        this.happiness = savedData.happiness ?? 0;
+        this.wellness = savedData.wellness ?? 0;
+        this.friendship = savedData.friendship ?? 0;
+        this.expertise = savedData.expertise ?? 0;
+        this.diligence = savedData.diligence ?? 0;
 
-        this.shapeStats = savedData.shapeStats !== undefined ? savedData.shapeStats : {
+        this.shapeStats = savedData.shapeStats ?? {
             stickiness: 0,
             translucency: 0,
             doughiness: 0,
@@ -19,7 +20,7 @@ export class PetModel {
             powderiness: 0
         };
 
-        this.textureStats = savedData.textureStats !== undefined ? savedData.textureStats : {
+        this.textureStats = savedData.textureStats ?? {
             sweetness: 0,
             softness: 0,
             subtlety: 0,
@@ -36,6 +37,7 @@ export class PetModel {
         };
 
         this.checkDailyReset();
+        this.currentEvolution = savedData.currentEvolution ?? { type: "unformed", variant: "egg" };
     }
 
     processTask(task) {
@@ -51,34 +53,98 @@ export class PetModel {
         const multiplier = task.category === this.dailyCraving ? 2 : 1;
         this.points += (baseReward * task.difficulty) * multiplier;
 
-        if (multiplier > 1) {
-            console.log("Craving satisfied! 2x Points awarded.");
-        }
-
         if (stats) {
-            this.shapeStats[stats.base] += task.difficulty;
-            this.textureStats[stats.texture] += task.difficulty;
+            this.shapeStats[stats.base] = Math.min(100, this.shapeStats[stats.base] + task.difficulty);
+            this.textureStats[stats.texture] = Math.min(100, this.textureStats[stats.texture] + task.difficulty);
         }
 
-        console.log(`Pet updated! Energy: ${this.energy}, Points: ${this.points}`);
+        const coreStatMap = {
+            "Social": "friendship",
+            "Hobby": "happiness",
+            "Wellness": "wellness",
+            "Study": "expertise",
+            "Chores": "diligence"
+        };
+
+        const coreStat = coreStatMap[task.category];
+        if (coreStat) {
+            this[coreStat] += task.difficulty;
+        }
+    }
+
+    checkEvolution() {
+        const newEvolution = this.getEvolution();
+        const changed = newEvolution.type !== this.currentEvolution.type || newEvolution.variant !== this.currentEvolution.variant;
+
+        if (changed) {
+            this.currentEvolution = newEvolution;
+            return newEvolution;
+        }
+
+        return null;
     }
 
     checkDailyReset() {
         const today = new Date().toDateString();
         if (this.lastLogin !== today) {
+            this.decayStats();
             this.energy = 100;
             this.lastLogin = today;
 
             const categories = ["Chores", "Study", "Hobby", "Social", "Wellness"];
             const randomIndex = Math.floor(Math.random() * categories.length);
             this.dailyCraving = categories[randomIndex];
-
-            console.log("New day! Energy restored to 100.");
         }
+    }
+
+    decayStats() {
+        const DECAY_AMOUNT = 2;
+        Object.keys(this.shapeStats).forEach(s => {
+            this.shapeStats[s] = Math.max(0, this.shapeStats[s] - DECAY_AMOUNT);
+        });
+        Object.keys(this.textureStats).forEach(t => {
+            this.textureStats[t] = Math.max(0, this.textureStats[t] - DECAY_AMOUNT);
+        });
     }
 
     addEnergy(amount) {
         this.energy = Math.min(100, this.energy + amount);
-        console.log(`Energy increased by ${amount}. Current energy: ${this.energy}`);
+    }
+
+    getEvolution() {
+        const shapeEntries = Object.entries(this.shapeStats);
+        const [dominantBase, dominantValue] = shapeEntries.reduce((a, b) => a[1] > b[1] ? a : b);
+
+        if (dominantValue < 25) return {type: "unformed", variant: "egg"};
+
+        const typeMap = {
+            stickiness: "dango",
+            translucency: "mizushingen",
+            doughiness: "hishimochi",
+            bounciness: "sakuramochi",
+            powderiness: "daifuku",
+        };
+
+        const nativeTextureMap = {
+            stickiness: "sweetness",
+            translucency: "softness",
+            doughiness: "subtlety",
+            bounciness: "squishiness",
+            powderiness: "chewiness",
+        }
+
+        const nativeTexture = nativeTextureMap[dominantBase];
+        const nativeValue = this.textureStats[nativeTexture];
+
+        const [secondaryStat, secondaryValue] = Object.entries(this.textureStats)
+            .filter(([key]) => key !== nativeTexture)
+            .sort((a, b) => b[1] - a[1])[0];
+
+        const hasSecondary = secondaryValue >= 10 && secondaryValue >= nativeValue * 0.4;
+
+        return {
+            type: typeMap[dominantBase],
+            variant: hasSecondary ? secondaryStat : "base"
+        };
     }
 }

@@ -17,7 +17,6 @@
     --color-q3: #fff3cd;
     --color-q4: #e2e3e5;
 
-    --text-primary: #007bff;
     --font-main: 'Silkscreen', sans-serif;
 }
 
@@ -32,7 +31,7 @@ body {
     height: 100vh;
     overflow: hidden;
     background-color: var(--color-bg-main);
-    color: var(--text-primary);
+    color: var(--color-text-main);
     font-family: var(--font-main);
     user-select: none;
 }

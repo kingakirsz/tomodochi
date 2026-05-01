@@ -102,16 +102,14 @@ export class MainController {
             this.lists.splice(listIndex, 1);
             this.tasks = this.tasks.filter(t => t.listId !== id);
 
-            this.saveData();
-            this.notifyViews();
+            this.saveAndNotify()
         }
     }
 
     addNewTask(listId, taskData) {
         const newTask = new TaskModel({...taskData, listId: listId, order: this.tasks.length});
         this.tasks.push(newTask);
-        this.saveData();
-        this.notifyViews();
+        this.saveAndNotify();
     }
 
     saveData() {
@@ -160,10 +158,10 @@ export class MainController {
             task.isCompleted = isCompleted;
             if (isCompleted) {
                 this.pet.processTask(task);
+                const evolution = this.pet.checkEvolution();
                 this.savePetData();
             }
-            this.saveData();
-            this.notifyViews();
+            this.saveAndNotify();
         }
     }
 
@@ -174,8 +172,7 @@ export class MainController {
                 task.order = index;
             }
         });
-        this.saveData();
-        this.notifyViews();
+        this.saveAndNotify();
     }
 
     updateTaskQuadrant(taskId, newQuadrant) {
@@ -199,8 +196,7 @@ export class MainController {
                     task.isUrgent = false;
                     break;
             }
-            this.saveData();
-            this.notifyViews();
+            this.saveAndNotify();
         }
     }
 
@@ -208,8 +204,7 @@ export class MainController {
         const task = this.tasks.find(t => t.id === taskId);
         if (task) {
             task.status = newStatus;
-            this.saveData();
-            this.notifyViews();
+            this.saveAndNotify();
         }
     }
 
@@ -235,14 +230,17 @@ export class MainController {
                         });
                         this.tasks.push(subtaskModel);
                     });
-
-                    this.saveData();
-                    this.notifyViews();
+                    this.saveAndNotify();
                 });
         }
     }
+
+    saveAndNotify() {
+        this.saveData();
+        this.notifyViews();
+    }
+
     savePetData() {
         StorageService.savePet(this.pet);
-        console.log("Pet data saved:", this.pet);
     }
 }
