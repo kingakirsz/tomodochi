@@ -1,4 +1,5 @@
 import { BaseWindow } from "./BaseWindow.js";
+import { CATEGORY_ICONS } from "../../utils/categoryConfig.js";
 
 export class ToDoWindow extends BaseWindow {
     constructor(windowElement, onToggleTask, onReorderTasks, onEditTask) {
@@ -47,6 +48,7 @@ export class ToDoWindow extends BaseWindow {
         tasks.forEach(task => {
             const taskDiv = document.createElement("div");
             taskDiv.className = "task-item";
+            taskDiv.classList.add(task.getMatrixQuadrant().toLowerCase());
 
             if (task.isCompleted) {
                 taskDiv.classList.add("completed");
@@ -92,8 +94,13 @@ export class ToDoWindow extends BaseWindow {
                 }
             });
 
+            const categoryIcon = document.createElement("span");
+            categoryIcon.className = "task-category-icon";
+            categoryIcon.textContent = CATEGORY_ICONS[task.category] ?? "";
+
             taskDiv.appendChild(checkbox);
             taskDiv.appendChild(titleSpan);
+            taskDiv.appendChild(categoryIcon);
             taskDiv.appendChild(editBtn);
             this.contentArea.appendChild(taskDiv);
         });

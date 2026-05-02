@@ -1,4 +1,5 @@
 import {BaseWindow} from "./BaseWindow.js";
+import { CATEGORY_ICONS } from "../../utils/categoryConfig.js";
 
 export class KanbanWindow extends BaseWindow {
     constructor(windowElement, onMoveTask) {
@@ -23,16 +24,16 @@ export class KanbanWindow extends BaseWindow {
 
             zone.container.addEventListener("dragover", (e) => {
                 e.preventDefault();
-                zone.container.style.backgroundColor = "var(--color-primary-light)";
+                zone.container.style.setProperty("background-color", "var(--color-primary-light)");
             });
 
             zone.container.addEventListener("dragleave", () => {
-                zone.container.style.backgroundColor = "transparent";
+                zone.container.style.setProperty("background-color", "transparent");
             });
 
             zone.container.addEventListener("drop", (e) => {
                 e.preventDefault();
-                zone.container.style.backgroundColor = "transparent";
+                zone.container.style.setProperty("background-color", "transparent");
 
                 const taskId = e.dataTransfer.getData("application/kanban-task");
                 if (taskId && this.onMoveTask) {
@@ -52,8 +53,18 @@ export class KanbanWindow extends BaseWindow {
         allTasks.forEach(task => {
             const taskElement = document.createElement("div");
             taskElement.className = "task-item";
+            taskElement.classList.add(task.getMatrixQuadrant().toLowerCase());
 
-            taskElement.innerHTML = `<span>${task.title}</span>`;
+            const titleSpan = document.createElement("span");
+            titleSpan.textContent = task.title;
+
+            const categoryIcon = document.createElement("span");
+            categoryIcon.className = "task-category-icon";
+            categoryIcon.textContent = CATEGORY_ICONS[task.category] ?? "";
+
+            taskElement.appendChild(titleSpan);
+            taskElement.appendChild(categoryIcon);
+
             taskElement.dataset.id = task.id;
             taskElement.setAttribute("draggable", true);
 

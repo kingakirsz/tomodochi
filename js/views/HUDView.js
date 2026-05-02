@@ -1,3 +1,7 @@
+const ENERGY_COLOR_HIGH = "#74c69d";
+const ENERGY_COLOR_MID = "#ffd166";
+const ENERGY_COLOR_LOW = "#ef476f";
+
 export class HUDView {
     constructor() {
         this.energyFill = document.getElementById("hud-energy-fill");
@@ -15,11 +19,11 @@ export class HUDView {
             this.energyFill.style.width = `${safeEnergy}%`;
 
             if (safeEnergy > 50) {
-                this.energyFill.style.backgroundColor = "#74c69d";
+                this.energyFill.style.backgroundColor = ENERGY_COLOR_HIGH;
             } else if (safeEnergy > 20) {
-                this.energyFill.style.backgroundColor = "#ffd166";
+                this.energyFill.style.backgroundColor = ENERGY_COLOR_MID;
             } else {
-                this.energyFill.style.backgroundColor = "#ef476f";
+                this.energyFill.style.backgroundColor = ENERGY_COLOR_LOW;
             }
         }
 

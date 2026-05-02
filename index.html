@@ -14,47 +14,49 @@
 </head>
 <body>
     <nav id="app-menu">
-        <div class="dropdown">
-            <button class="menu-btn">File</button>
-            <div class="dropdown-content" id="file-dropdown">
-                <button class="dropdown-item" id="btn-export-save">💾 Save Game</button>
-                <button class="dropdown-item" id="btn-import-save">📂 Load Game</button>
-                <input type="file" id="import-file-input" accept=".json" style="display:none;">
+        <div id="hud-container">
+            <div class="hud-item energy-container">
+                <span class="hud-icon">🔋</span>
+                <div class="energy-bar-bg">
+                    <div class="energy-bar-fill" id="hud-energy-fill"></div>
+                </div>
+            </div>
+            <div class="hud-item points-container">
+                <span class="hud-icon">⭐️</span>
+                <span id="hud-points-text">0</span>
+            </div>
+            <div class ="hud-item craving-container">
+                <span class="hud-icon">🍽️</span>
+                <span id="hud-craving-text">None</span>
             </div>
         </div>
 
-        <div class="dropdown">
-            <button class="menu-btn">View</button>
-            <div class="dropdown-content" id="view-dropdown">
-                <button class="dropdown-item" id="btn-new-list">➕ Add new list</button>
-                    <hr class = "menu-separator">
-                    <div id="lists-menu-container"></div>
+        <div id="nav-buttons">
+            <div class="dropdown">
+                <button class="menu-btn">File</button>
+                <div class="dropdown-content" id="file-dropdown">
+                    <button class="dropdown-item" id="btn-export-save">💾 Save Game</button>
+                    <button class="dropdown-item" id="btn-import-save">📂 Load Game</button>
+                    <input type="file" id="import-file-input" accept=".json" style="display:none;">
+                </div>
             </div>
-        </div>
+            <div class="dropdown">
+                <button class="menu-btn">View</button>
+                <div class="dropdown-content" id="view-dropdown">
+                    <button class="dropdown-item" id="btn-new-list">➕ Add new list</button>
+                        <hr class = "menu-separator">
+                        <div id="lists-menu-container"></div>
+                </div>
+            </div>
 
-        <button class="menu-btn">Shop</button>
-        <button class="menu-btn" id="btn-stats">Stats</button>
-        <button class="menu-btn">Help</button>
+            <button class="menu-btn">Shop</button>
+            <button class="menu-btn" id="btn-stats">Stats</button>
+            <button class="menu-btn">Help</button>
+        </div>
+        <div class="nav-spacer"></div>
     </nav>
     <main id="app-container">
         <div id="scene">
-            <div id="hud-container">
-                <div class="hud-item energy-container">
-                    <span class="hud-label">Energy</span>
-                    <div class = "energy-bar-bg">
-                        <div class="energy-bar-fill" id="hud-energy-fill"></div>
-                    </div>
-                </div>
-                <div class="hud-item points-container">
-                    <span class="hud-icon">⭐️</span>
-                    <span id="hud-points-text">0</span>
-                </div>
-                <div class="hud-item craving-container" style="background: var(--color-window-bg);
-      padding: 5px 10px; border-radius: 15px; font-size: 12px; border: 2px solid var(--color-primary);">
-                    <span class="hud-icon">🍽️</span>
-                    <span>Craving: </span><span id="hud-craving-text" style="color: var(--color-primary-dark); font-weight: bold;">None</span>
-                </div>
-            </div>
             <div id="environment-bg" class="default-bg">
                 <div id="pet" class="idle-animation"></div>
             </div>

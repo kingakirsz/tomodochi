@@ -5,11 +5,29 @@
     border-bottom: 2px solid var(--color-secondary);
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 0 20px;
     gap: 15px;
     position: relative;
     z-index: 1000;
+}
+
+#nav-buttons {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+#hud-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-spacer {
+    flex: 1;
 }
 
 .menu-btn {
@@ -45,7 +63,7 @@
     position: absolute;
     background-color: var(--color-window-bg);
     min-width: 280px;
-    box-shadow: 0px 8px 16px 0px rgba(177, 133, 151, 0.2);
+    box-shadow: 0px 8px 16px 0px var(--color-shadow-light);
     border: 2px solid var(--color-secondary);
     border-radius: 8px;
     z-index: 9999;

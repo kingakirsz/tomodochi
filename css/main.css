@@ -2,20 +2,36 @@
 
 :root {
     --color-bg-main: #f0f0f0;
+
     --color-primary: #ffb3ba;
     --color-primary-dark: #ff8c94;
     --color-primary-light: #fff0f0;
+
     --color-secondary: #b18597;
     --color-secondary-light: #ffe9e9;
 
     --color-text-main: #382b22;
+
+    --color-surface: #e2e3e5;
     --color-window-bg: #ffffff;
     --color-window-content: #fafafa;
 
-    --color-q1: #ffdadc;
-    --color-q2: #e2f0cb;
-    --color-q3: #fff3cd;
-    --color-q4: #e2e3e5;
+    --color-shadow: rgba(177, 133, 151, 0.4);
+    --color-shadow-light: rgba(177, 133, 151, 0.2);
+    --color-overlay: rgba(56, 43, 34, 0.6);
+
+    --color-scene-sky: #a2d2ff;
+    --color-scene-ground: #95d5b2;
+    --color-scene-ground-border: #74c69d;
+
+    --color-energy-high: #74c69d;
+    --color-energy-mid: #ffd166;
+    --color-energy-low: #ef476f;
+
+    --color-matrix-q1: #ffdadc;
+    --color-matrix-q2: #e2f0cb;
+    --color-matrix-q3: #fff3cd;
+    --color-matrix-q4: #e2e3e5;
 
     --font-main: 'Silkscreen', sans-serif;
 }

@@ -45,7 +45,9 @@ export class PetModel {
 
         const stats = this.categoryMap[task.category];
 
-        if (task.category !== "Wellness") {
+        if (task.category === "Wellness") {
+            this.addEnergy(task.difficulty * 2);
+        } else {
             this.energy = Math.max(0, Math.min(100, this.energy - task.difficulty));
         }
 

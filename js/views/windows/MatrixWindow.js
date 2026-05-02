@@ -1,4 +1,5 @@
 import {BaseWindow} from "./BaseWindow.js";
+import { CATEGORY_ICONS } from "../../utils/categoryConfig.js";
 
 export class MatrixWindow extends BaseWindow {
     constructor(windowElement, onMoveTask) {
@@ -25,16 +26,16 @@ export class MatrixWindow extends BaseWindow {
 
             zone.container.addEventListener("dragover", (e) => {
                 e.preventDefault();
-                zone.container.style.boxShadow = "inset 0 0 10px rgba(177, 133, 151, 0.3)";
+                zone.container.style.setProperty("box-shadow", "inset 0 0 10px var(--color-shadow-light)");
             });
 
             zone.container.addEventListener("dragleave", () => {
-                zone.container.style.boxShadow = "none";
+                zone.container.style.setProperty("box-shadow", "none");
             });
 
             zone.container.addEventListener("drop", (e) => {
                 e.preventDefault();
-                zone.container.style.boxShadow = "none";
+                zone.container.style.setProperty("box-shadow", "none");
 
                 const taskId = e.dataTransfer.getData("application/matrix-task")
 
@@ -64,7 +65,16 @@ export class MatrixWindow extends BaseWindow {
             const taskElement = document.createElement("div");
             taskElement.className = "task-item";
 
-            taskElement.innerHTML = `<span>${task.title}</span>`;
+            const titleSpan = document.createElement("span");
+            titleSpan.textContent = task.title;
+
+            const categoryIcon = document.createElement("span");
+            categoryIcon.className = "task-category-icon";
+            categoryIcon.textContent = CATEGORY_ICONS[task.category] ?? "";
+
+            taskElement.appendChild(titleSpan);
+            taskElement.appendChild(categoryIcon);
+
             taskElement.dataset.id = task.id;
             taskElement.setAttribute("draggable", true);
 
