@@ -91,3 +91,50 @@
     font-size: 18px;
     line-height: 1;
 }
+
+.speech-bubble {
+    position: absolute;
+    bottom: 105px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-window-bg);
+    border: 3px solid var(--color-secondary);
+    border-radius: 12px;
+    padding: 10px 15px;
+    font-family: var(--font-main);
+    font-size: 11px;
+    color: var(--color-text-main);
+    max-width: 180px;
+    text-align: center;
+    z-index: 50;
+    box-shadow: 2px 4px 0 var(--color-shadow);
+    opacity: 1;
+    transition: opacity 0.4s ease;
+    line-height: 1.6;
+}
+
+.speech-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: var(--color-secondary);
+}
+
+.speech-bubble::before {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--color-window-bg);
+    z-index: 1;
+}
+
+.speech-bubble.hidden {
+    opacity: 0;
+    pointer-events: none;
+}

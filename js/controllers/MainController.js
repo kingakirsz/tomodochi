@@ -6,12 +6,15 @@ import {TaskDetailsModal} from "../views/windows/TaskDetailsModal.js";
 import {PetModel} from "../models/PetModel.js";
 import {HUDView} from "../views/HUDView.js";
 import {StatsWindow} from "../views/windows/StatsWindow.js";
+import { SpeechBubbleView } from "../views/SpeechBubbleView.js";
+import { CATEGORY_ICONS } from "../utils/categoryConfig.js";
 
 export class MainController {
     constructor() {
         this.lists = [];
         this.tasks = [];
         this.pet = new PetModel(StorageService.loadPet());
+        this.speechBubble = new SpeechBubbleView();
         this.savePetData();
 
         this.desktop = document.getElementById("desktop");
@@ -130,6 +133,14 @@ export class MainController {
 
         this.tasks = savedTasks.map(taskData => new TaskModel(taskData));
         this.notifyViews();
+
+        const today = new Date().toDateString();
+        if (this.pet.lastLogin === today) {
+            this.speechBubble.show(
+                `Hello! Today I'm craving ${this.pet.dailyCraving}! ${CATEGORY_ICONS[this.pet.dailyCraving]}`,
+                5000
+            );
+        }
     }
 
     notifyViews() {
@@ -159,6 +170,11 @@ export class MainController {
             if (isCompleted) {
                 this.pet.processTask(task);
                 const evolution = this.pet.checkEvolution();
+                if (evolution) {
+                    this.speechBubble.show(`I evolved into ${evolution.type}!`, 5000);
+                } else {
+                    this.speechBubble.showRandom();
+                }
                 this.savePetData();
             }
             this.saveAndNotify();
