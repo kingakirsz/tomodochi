@@ -37,7 +37,7 @@ export class PetModel {
         };
 
         this.checkDailyReset();
-        this.currentEvolution = savedData.currentEvolution ?? { type: "unformed", variant: "egg" };
+        this.currentEvolution = savedData.currentEvolution ?? { type: "placeholder", variant: "egg" };
     }
 
     processTask(task) {
@@ -117,7 +117,7 @@ export class PetModel {
         const shapeEntries = Object.entries(this.shapeStats);
         const [dominantBase, dominantValue] = shapeEntries.reduce((a, b) => a[1] > b[1] ? a : b);
 
-        if (dominantValue < 25) return {type: "unformed", variant: "egg"};
+        if (dominantValue < 25) return {type: "placeholder", variant: "egg"};
 
         const typeMap = {
             stickiness: "dango",

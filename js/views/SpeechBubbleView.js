@@ -35,8 +35,22 @@ export class SpeechBubbleView {
 
         this.timer = setTimeout(() => {
             this.bubble.classList.add("hidden");
-            setTimeout(() => this._showNext(), 400); // wait for fade
+            setTimeout(() => this._showNext(), 400);
         }, duration);
+    }
+
+    setAnchorX(petLeftPercent, petBottomPx = null) {
+        this.bubble.style.left = `calc(${petLeftPercent}% + 32px)`;
+        this.bubble.style.transform = "translateX(-50%)";
+        if (petBottomPx !== null) {
+            this.bubble.style.bottom = `${petBottomPx + 138}px`;
+        }
+    }
+
+    resetAnchor() {
+        this.bubble.style.left = "";
+        this.bubble.style.transform = "";
+        this.bubble.style.bottom = "";
     }
 
     clear() {

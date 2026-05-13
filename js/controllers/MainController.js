@@ -8,6 +8,7 @@ import {HUDView} from "../views/HUDView.js";
 import {StatsWindow} from "../views/windows/StatsWindow.js";
 import { SpeechBubbleView } from "../views/SpeechBubbleView.js";
 import { CATEGORY_ICONS } from "../utils/categoryConfig.js";
+import { SceneView } from "../views/SceneView.js";
 
 export class MainController {
     constructor() {
@@ -21,6 +22,7 @@ export class MainController {
         this.menuContainer = document.getElementById("lists-menu-container");
 
         this.hudView = new HUDView();
+        this.sceneView = new SceneView(this.speechBubble);
 
         this.menuView = new MenuView(this.menuContainer, {
             onRename: this.renameList.bind(this),
@@ -161,6 +163,9 @@ export class MainController {
        if (this.statsWindow && this.statsWindow.element.style.display !== "none") {
            this.statsWindow.render(this.pet);
        }
+        if (this.sceneView && this.pet) {
+            this.sceneView.update(this.pet);
+        }
     }
 
     toggleTaskCompletion(taskId, isCompleted) {
@@ -175,6 +180,7 @@ export class MainController {
                 } else {
                     this.speechBubble.showRandom();
                 }
+                this.sceneView.triggerHappy();
                 this.savePetData();
             }
             this.saveAndNotify();

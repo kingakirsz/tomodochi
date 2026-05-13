@@ -1,12 +1,15 @@
 # TomoDochi 🐾
-A gamified task manager built with **Vanilla JavaScript**. 
+A gamified task manager built with **Vanilla JavaScript**.
 
-TomoDochi is my personal take on the virtual pet genre. I wanted to bridge the gap between daily discipline and having the motivation to stay consistent, turning a standard To-Do list into a rewarding evolution of a digital companion. Every line of code and (soon!) every pixel is part of this experiment.
+TomoDochi is my personal take on the virtual pet genre. I wanted to bridge the gap between daily discipline and having the motivation to stay consistent, turning a standard To-Do list into a rewarding evolution of a digital companion.
+
+> 🚧 Actively in development - new sprites and features on the way.
 
 ## Features
-- **3-in-1 Workflow**: Switch between a standard **To-Do List**, an **Eisenhower Matrix**, and a **Kanban Board**.
-- **Pet Evolution**: Your task categories determine your pet's physical appearance.
-- **Daily Energy System**: Manage your daily energy pool - scheduling tasks and rest is key.
+- **3-in-1 Workflow**: Switch between a **To-Do List**, an **Eisenhower Matrix**, and a **Kanban Board**.
+- **Pet Evolution**: Your task categories shape your pet's physical appearance.
+- **Live Pet Scene**: Your companion walks, bounces, and reacts to completed tasks - drag them anywhere on the ground.
+- **Daily Energy System**: Manage your energy pool - scheduling tasks and rest is key.
 - **Local Persistence**: Save your progress automatically or export/import your game data via JSON.
 
 ## Built With
