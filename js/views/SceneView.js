@@ -34,8 +34,12 @@ export class SceneView {
             this.petEl.classList.add("has-sprite");
         };
         img.onerror = () => {
-            this.petEl.style.backgroundImage = "none";
-            this.petEl.classList.remove("has-sprite");
+            if (variant === "base") {
+                this.petEl.style.backgroundImage = "none";
+                this.petEl.classList.remove("has-sprite");
+            } else {
+                this.updateSprite({ type, variant: "base" });
+            }
         };
         img.src = path;
     }

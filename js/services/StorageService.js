@@ -76,9 +76,8 @@ export class StorageService {
                 } else {
                     alert("Error: This is not a valid TomoDochi save file!")
                 }
-            } catch (error) {
+            } catch {
                 alert("Error: Could not import the save file! It might be corrupted.");
-                console.error(error);
             }
         };
         reader.readAsText(file);

@@ -307,3 +307,25 @@
     cursor: default;
     margin-bottom: 0;
 }
+
+.help-content {
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.help-section h3 {
+    font-family: var(--font-main);
+    font-size: 11px;
+    color: var(--color-secondary);
+    margin-bottom: 5px;
+}
+
+.help-section p {
+    font-family: var(--font-main);
+    font-size: 10px;
+    color: var(--color-text-main);
+    line-height: 1.8;
+}

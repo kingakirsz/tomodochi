@@ -48,7 +48,6 @@ export class MatrixWindow extends BaseWindow {
 
     render(allTasks) {
         if (!this.q1Container || !this.q2Container || !this.q3Container || !this.q4Container) {
-            console.warn("MatrixWindow: Could not find a matrix container!");
             return;
         }
 

@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.warn(`Stat "${statName}" not found.`);
                 return;
             }
+            mainController.pet.checkEvolution();
             mainController.savePetData();
             mainController.notifyViews();
             console.log(`Stat "${statName}" set to 100.`);
@@ -78,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.warn(`Stat "${statName}" not found.`);
                 return;
             }
+            mainController.pet.checkEvolution();
             mainController.savePetData();
             mainController.notifyViews();
             console.log(`Stat "${statName}" reset to 0.`);
@@ -120,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             mainController.pet.textureStats = {
                 sweetness: 0, softness: 0, subtlety: 0, squishiness: 0, chewiness: 0
             };
+            mainController.pet.checkEvolution();
             mainController.savePetData();
             mainController.notifyViews();
             console.log("Pet stats reset to 0.");

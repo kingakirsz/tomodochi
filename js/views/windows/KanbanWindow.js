@@ -69,7 +69,7 @@ export class KanbanWindow extends BaseWindow {
             taskElement.setAttribute("draggable", true);
 
             if (task.status === "done") {
-                taskElement.classList.add("done");
+                taskElement.classList.add("completed");
             }
 
             taskElement.addEventListener("dragstart", (e) => {

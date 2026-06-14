@@ -9,6 +9,7 @@ import {StatsWindow} from "../views/windows/StatsWindow.js";
 import { SpeechBubbleView } from "../views/SpeechBubbleView.js";
 import { CATEGORY_ICONS } from "../utils/categoryConfig.js";
 import { SceneView } from "../views/SceneView.js";
+import { HelpWindow } from "../views/windows/HelpWindow.js";
 
 export class MainController {
     constructor() {
@@ -49,6 +50,16 @@ export class MainController {
                 this.statsWindow.toggleVisibility();
                 this.statsWindow.render(this.pet);
             });
+        }
+
+        const helpTemplate = document.getElementById("help-window-template");
+        const helpEl = helpTemplate.content.cloneNode(true).firstElementChild;
+        this.desktop.appendChild(helpEl);
+        this.helpWindow = new HelpWindow(helpEl);
+
+        const btnHelp = document.getElementById("btn-help");
+        if (btnHelp) {
+            btnHelp.addEventListener("click", () => this.helpWindow.toggleVisibility());
         }
 
         this.loadData();

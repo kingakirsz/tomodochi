@@ -1,7 +1,3 @@
-const ENERGY_COLOR_HIGH = "#74c69d";
-const ENERGY_COLOR_MID = "#ffd166";
-const ENERGY_COLOR_LOW = "#ef476f";
-
 export class HUDView {
     constructor() {
         this.energyFill = document.getElementById("hud-energy-fill");
@@ -19,11 +15,11 @@ export class HUDView {
             this.energyFill.style.width = `${safeEnergy}%`;
 
             if (safeEnergy > 50) {
-                this.energyFill.style.backgroundColor = ENERGY_COLOR_HIGH;
+                this.energyFill.style.backgroundColor = "var(--color-energy-high)";
             } else if (safeEnergy > 20) {
-                this.energyFill.style.backgroundColor = ENERGY_COLOR_MID;
+                this.energyFill.style.backgroundColor = "var(--color-energy-mid)";
             } else {
-                this.energyFill.style.backgroundColor = ENERGY_COLOR_LOW;
+                this.energyFill.style.backgroundColor = "var(--color-energy-low)";
             }
         }
 
