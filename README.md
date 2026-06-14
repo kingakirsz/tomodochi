@@ -12,6 +12,10 @@ TomoDochi is my personal take on the virtual pet genre. I wanted to bridge the g
 - **Daily Energy System**: Manage your energy pool - scheduling tasks and rest is key.
 - **Local Persistence**: Save your progress automatically or export/import your game data via JSON.
 
+## Running Locally
+1. Clone the repository: `git clone https://github.com/kingakirsz/tomodochi.git`
+2. Open `index.html` in a browser, or use a local server (e.g. VS Code Live Server).
+
 ## Built With
 - HTML5 / CSS3 (Modular CSS)
 - Vanilla JavaScript (ES6 Modules)
