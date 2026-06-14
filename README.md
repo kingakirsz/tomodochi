@@ -3,7 +3,7 @@ A gamified task manager built with **Vanilla JavaScript**.
 
 TomoDochi is my personal take on the virtual pet genre. I wanted to bridge the gap between daily discipline and having the motivation to stay consistent, turning a standard To-Do list into a rewarding evolution of a digital companion.
 
-> 🚧 Actively in development - new sprites and features on the way.
+**Live demo:** https://kingakirsz.github.io/tomodochi/
 
 ## Features
 - **3-in-1 Workflow**: Switch between a **To-Do List**, an **Eisenhower Matrix**, and a **Kanban Board**.
